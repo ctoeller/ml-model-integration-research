@@ -1,0 +1,34 @@
+The 3rDI object detection machine learning model will require us to use NCNN and OpenCV frameworks.
+
+NCNN is a C++ framework for loading and interacting with deep learning models.
+
+OpenCV is similarly used for loading and interacting with deep learning models, but since we are
+using NCNN for running the model, we will be using OpenCV for doing the image processing before we 
+send the image to the model for analysis. 
+
+For our application, we will be loading a trained YOLO ("You Only Look Once") model into the NCNN framework which will run
+the model with improved performance. 
+
+YOLO models are considered to be faster than many other object detection algorithms because they are able
+to perform the Object Detection and Object Classification in one algorithm 'run' and in real time. 
+
+YOLO models are unique because instead of performing an in-depth search for objects in an image, they instead
+break up the image into a grid and only consider grid boxes that have a high probability of containing objects.
+Areas with dense probabilities will bounded by a box. The images inside of those bounding boxes are
+then analyzed for image classification all in a single pass. 
+
+While YOLO is an algorithm, it still needs to be trained to be able to classify the images. Therefore,
+it is both an object detection algorithm and model in one. 
+
+Because the NCNN library is implemented in C++ and has no Java API, we will need to utilize the Android NDK 
+toolkit to compile the NCNN code as well as any code that interacts with the NCNN library. 
+
+Additionally, we will likely need to use Android NDK for efficiently accessing the device camera as well, according to our sponsor.
+Therefore, it is highly probable the vast majority of our code for piping the camera images through the 
+machine learning model will need to be written in C++.
+
+My understanding of the workflow is this:
+Native camera access (NDK)
+OpenCV for image pre-processing before sending to model (NDK)
+NCNN for object detection and classification (NDK)
+Object classification and location results returned to Android application (Java)
